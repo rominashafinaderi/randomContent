@@ -27,10 +27,10 @@ void main(List<String> arguments) async {
       }
     } else {
       print('Failed to retrieve total content count.');
+      await _printPageContent(contentGetter, 1);
     }
   } catch (e) {
     print('An error occurred: $e \n');
-    await _printPageContent(contentGetter, 1);
   }
 }
 
