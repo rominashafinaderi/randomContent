@@ -2,12 +2,12 @@ import 'content_model.dart';
 import 'http.dart';
 import 'response_extention.dart';
 
-class ContentGetter {
+class ContentFetcher {
   final Http http;
 
-  ContentGetter(this.http);
+  ContentFetcher(this.http);
 
-  Future<int> getTotalContentCount() async {
+  Future<int> fetchTotalContentCount() async {
     final response = await http.get('/v1/content/contentApi/getCountContents/');
     if (response.isSuccess()) {
       return response.countData;
@@ -16,7 +16,7 @@ class ContentGetter {
     }
   }
 
-  Future<List<Content>> getFavoriteContents() async {
+  Future<List<Content>> fetchFavoriteContents() async {
     final Map<String, String> queryParams = {
       'isChosenGeneral': 'true',
       'count': '6',
@@ -34,7 +34,7 @@ class ContentGetter {
     }
   }
 
-  Future<List<Content>> getPageContent(int page) async {
+  Future<List<Content>> fetchPageContent(int page) async {
     final Map<String, String> queryParams = {
       'page': page.toString(),
       'count': '30',

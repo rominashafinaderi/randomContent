@@ -4,10 +4,10 @@ import 'http.dart';
 
 void main(List<String> arguments) async {
   final http = Http();
-  final contentGetter = ContentGetter(http);
+  final contentFetcher = ContentFetcher(http);
 
   try {
-    final total = await contentGetter.getTotalContentCount();
+    final total = await contentFetcher.fetchTotalContentCount();
 
     if (total != null && total > 0) {
       print('Total count of content is $total');
@@ -19,31 +19,31 @@ void main(List<String> arguments) async {
       var randomPage = Random().nextInt(pages.length);
 
       if (pageCount < 15) {
-        await _printPageContent(contentGetter, 1);
+        await _printPageContent(contentFetcher, 1);
       } else {
-        await _printFavoriteContents(contentGetter);
-        await _printPageContent(contentGetter, randomPage);
+        await _printFavoriteContents(contentFetcher);
+        await _printPageContent(contentFetcher, randomPage);
         pages.removeAt(randomPage);
       }
     } else {
       print('Failed to retrieve total content count.');
-      await _printPageContent(contentGetter, 1);
+      await _printPageContent(contentFetcher, 1);
     }
   } catch (e) {
     print('An error occurred: $e \n');
   }
 }
 
-Future<void> _printPageContent(ContentGetter contentGetter, int page) async {
-  final pageContent = await contentGetter.getPageContent(page);
+Future<void> _printPageContent(ContentFetcher contentFetcher, int page) async {
+  final pageContent = await contentFetcher.fetchPageContent(page);
   print('Content of page $page:');
   for (var content in pageContent) {
     print('Title: ${content.title}');
   }
 }
 
-Future<void> _printFavoriteContents(ContentGetter contentGetter) async {
-  final favoriteContents = await contentGetter.getFavoriteContents();
+Future<void> _printFavoriteContents(ContentFetcher contentFetcher) async {
+  final favoriteContents = await contentFetcher.fetchFavoriteContents();
   print('Favorite contents:');
   for (var content in favoriteContents) {
     print('Title: ${content.title}');
